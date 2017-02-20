@@ -4,7 +4,7 @@ app = wx.App()
 win = wx.Frame(None, title = "Simple Editor", size = (410,335))
 bkg = wx.Panel(win)
 
-loadButton = wx.Button(win, label = 'Open', pos = (225, 5), size=(80, 25))
+loadButton = wx.Button(win, label = 'Open', pos = (225, 5), size=(110, 25))
 #实例化一个按钮
 
 saveButton = wx.Button(win, label = 'Save', pos = (315, 5), size=(80, 25))

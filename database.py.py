@@ -1,6 +1,10 @@
+# -*- coding: cp936 -*-
 import sys,shelve
 
 def store_person(db):
+    """
+    存储个人信息
+    """
     pid = raw_input(' please enter unique ID number: ')
     person = {}
     person['name'] =  raw_input('ENter Nmae : ')
