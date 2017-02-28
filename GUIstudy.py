@@ -15,7 +15,11 @@ app = wx.App()
 win = wx.Frame(None, title = "Simple Editor", size = (410,335))
 bkg = wx.Panel(win)
 
+<<<<<<< HEAD
 #loadButton = wx.Button(win, label = 'Open', pos = (225, 5), size=(80, 25))
+=======
+loadButton = wx.Button(win, label = 'Open', pos = (225, 5), size=(110, 25))
+>>>>>>> 2858acc07e7be858810b4ccfb219a27c1fd9633e
 #实例化一个按钮
 loadButton = wx.Button(bkg, label='open')
 loadButton.Bind(wx.EVT_BUTTON, load)
