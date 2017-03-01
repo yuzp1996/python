@@ -1,0 +1,5 @@
+首先需要安装工具包， http：//www.reportlab.org/download.html 下载ReportLab工具包， 将reportlab目录放在python所在路径中， 之后就应该可以导入  >>>import reportlab
+
+首先更新pip: sudo pip install --upgrade pip  
+在linex下应该使用语句 sudo pip install rlextra -i https://www.reportlab.com/pypi
+输入注册的邮箱还有密码即可下载
