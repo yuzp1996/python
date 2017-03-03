@@ -1,0 +1,35 @@
+<website>
+<page name="index" title="Home page">
+<h1>Welcome to my home</h1>
+
+
+<p>Hi, there MY name is yuzhipeng HERE is my interests:</p>
+<ul>
+    <li><a href ="interrests/shuting.html">Shouting</a></li>
+    <li><a href ="interest/sleeping.html">Sleeping</li>
+</ul>
+</page>
+
+<directory name = "interests">
+ 
+<page>
+
+ <h1>Mr'yu 's Shouting Page</h1>
+ <p>...</p>
+</page>
+
+<page>
+
+ <h1>Mr'yu 's Shouting Page</h1>
+ <p>...</p>
+</page>
+
+<page>
+
+ <h1>Mr'yu 's Shouting Page</h1>
+ <p>...</p>
+</page>
+
+</directory>
+
+</website>
