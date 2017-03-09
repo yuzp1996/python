@@ -35,16 +35,16 @@ class ChatServer(dispatcher):
         self.name = name
         self.sessions = []
         
-    def disconnect(self, session):
-        self.sessions.remove(session)
+        def disconnect(self, session):
+            self.sessions.remove(session)
 
-    def broadcast(self, line):
-        for session in self.sessions:
-            session.push(line+'\r\n')
+        def broadcast(self, line):
+            for session in self.sessions:
+                session.push(line+'\r\n')
 
-    def handle_accpet(self):
-        conn, addr = self.accept()
-        self.sessions.append(ChatSession(self, conn))
+        def handle_accpet(self):
+            conn, addr = self.accept()
+            self.sessions.append(ChatSession(self, conn))
 
 if __name__=='__main__':
     s = ChatServer(PORT, NAME)
