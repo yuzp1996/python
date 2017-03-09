@@ -34,6 +34,7 @@ class ChatServer(dispatcher):
         self.listen(5)
         self.name = name
         self.sessions = []
+        
     def disconnect(self, session):
         self.sessions.remove(session)
 
