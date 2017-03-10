@@ -1,5 +1,5 @@
 from asyncore import dispatcher
-from asyncore import async_chat
+from asynchat import async_chat
 import socket, asyncore
 
 PORT = 5005
@@ -26,25 +26,27 @@ class ChatSession(async_chat):
 		self.server.disconnect(self)
 
 class ChatServer(dispatcher):
-	def __init__(self, port, name):
-		dispatcher.__init__(self)
-		self.create_socket(socket.AF_INET, socket.SOCKET_STREAM)
+    def __init__(self, port, name):
+        dispatcher.__init__(self)
+        self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
         self.set_reuse_addr()
         self.bind(('',port))
         self.listen(5)
         self.name = name
         self.sessions = []
         
-        def disconnect(self, session):
-            self.sessions.remove(session)
+    def disconnect(self, session):
+        print "out"
+        self.sessions.remove(session)
 
-        def broadcast(self, line):
-            for session in self.sessions:
-                session.push(line+'\r\n')
+    def broadcast(self, line):
+        for session in self.sessions:
+            session.push(line+'\r\n')
 
-        def handle_accpet(self):
-            conn, addr = self.accept()
-            self.sessions.append(ChatSession(self, conn))
+    def handle_accpet(self):
+        conn, addr = self.accept()
+        print "connect ffrom "
+        self.sessions.append(ChatSession(self, conn))
 
 if __name__=='__main__':
     s = ChatServer(PORT, NAME)
