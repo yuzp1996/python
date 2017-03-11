@@ -5,25 +5,24 @@ import socket, asyncore
 PORT = 5005
 NAME = 'TestChat'
 class ChatSession(async_chat):
+    def __init__(self, server, sock):
+        Async_Chat.__init__(self, sock)
+        self.server = server
+        self.set_terminator("\r\n")
+        self.data = []
+        self.push("Welcome sto %s\r\n" % self.server.name)
 
-	def __init__(self, server, sock):
-		Async_Chat.__init__(self, sock)
-		self.server = server
-		self.set_terminator("\r\n")
-		self.data = []
-		self.push("Welcome sto %s\r\n" % self.server.name)
+    def collect_incoming_data(self, data): # get the news
+        self.data.append(data)
 
-	def collect_incoming_data(self, data): # get the news
-		self.data.append(data)
+    def found_terminator(self): # end the news
+        line = ''.join(self.data)
+        self.data = []
+        self.server.broadcast(line)
 
-	def found_terminator(self): # end the news
-		line = ''.join(self.data)
-		self.data = []
-		self.server.broadcast(line)
-
-	def handle_close(self): # end the connection
-		async_chat.handle_close(self)
-		self.server.disconnect(self)
+    def handle_close(self): # end the connection
+        async_chat.handle_close(self)
+        self.server.disconnect(self)
 
 class ChatServer(dispatcher):
     def __init__(self, port, name):
@@ -43,9 +42,9 @@ class ChatServer(dispatcher):
         for session in self.sessions:
             session.push(line+'\r\n')
 
-    def handle_accpet(self):
+    def handle_accpet(self): 
         conn, addr = self.accept()
-        print "connect ffrom "
+        print "connect from "+conn
         self.sessions.append(ChatSession(self, conn))
 
 if __name__=='__main__':
