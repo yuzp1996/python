@@ -16,7 +16,7 @@ class ChatSession(async_chat):
         self.data.append(data)
 
     def found_terminator(self): # end the news
-        line = ''.join(self.data)
+        line = ' '.join(self.data)  
         self.data = []
         self.server.broadcast(line)
 

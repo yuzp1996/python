@@ -6,6 +6,7 @@ PORT = 5005
 NAME = 'TestChat'
 class EndSession(Exception):pass
 
+#this is command 
 class CommandHandler:
 
     def unknown(self, session, cmd):
@@ -23,6 +24,7 @@ class CommandHandler:
         except TypeError:
             self.unknown(session, cmd)
 
+# above these are kinds of rooms
 class Room(CommandHandler):
 
     def __init__(self, server):
@@ -53,6 +55,7 @@ class LoginRoom(Room):
 
     def do_login(self, session, line):
         name = line.strip()
+        print name
         if not name:
             session.push("Please Enter a Name\r\n")
         elif name in self.server.users:
@@ -91,6 +94,7 @@ class LogoutRoom(Room):
         except KeyError:
             pass
 
+#above is 
 class ChatSession(async_chat):
     def __init__(self, server, sock):
         async_chat.__init__(self, sock)
@@ -118,15 +122,13 @@ class ChatSession(async_chat):
         try: self.room.handle(self, line)
         except EndSession:
             self.handle_close()
-
-
-
-        
+            
     def handle_close(self):
         async_chat.handle_close(self)
         self.enter(LogoutRoom(self.server))
 
 
+# this is the main server
 class ChatServer(dispatcher):
     def __init__(self, port, name):
         dispatcher.__init__(self)
@@ -139,8 +141,11 @@ class ChatServer(dispatcher):
         self.main_room = ChatRoom(self)
     def handle_accept(self):
         conn, addr=self.accept()
+        print conn
+        print addr
         ChatSession(self, conn)
 
+# you can start here 
 if __name__ == '__main__':
     s = ChatServer(PORT, NAME)
     try: asyncore.loop()
