@@ -4,7 +4,7 @@ from reportlab.graphics.charts.lineplots import LinePlot
 from reportlab.graphics.charts.textlabels import Label
 from reportlab.graphics import renderPDF
 
-URL = 'http://www.swpc.noaa.gov/ftpdir/weekly/Predict.txt'
+URL = 'ftp://ftp.swpc.noaa.gov/pub/weekly/Predict.txt'
 COMMENT_CHARS='#:'
 
 drawing = Drawing(400, 200)
@@ -14,8 +14,8 @@ for line in urlopen(URL).readlines():
         data.append([float(n) for n in line.split()])
 
 pred = [row[2] for row in data]
-high = [row[3] for row in dara]
-low = [row[4] for row in dara]
+high = [row[3] for row in data]
+low = [row[4] for row in data]
 times = [row[0] + row[1]/12.0 for row in data]
 
 lp = LinePlot()
