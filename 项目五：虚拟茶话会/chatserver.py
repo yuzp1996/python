@@ -16,13 +16,18 @@ class CommandHandler:
         if not line.strip(): return
         parts = line.split(' ', 1)
         cmd = parts[0]
-        try: line = parts[1].strip()
-        except IndexError: line = ''
-        meth = getattr(self, 'do_'+cmd, None)
-        try:
-            meth(session, line)
-        except TypeError:
-            self.unknown(session, cmd)
+
+        if cmd not in [ 'login', 'look', 'logout','who','getout']:
+            meth = getattr(self, 'do_say', None)
+            meth(session, line) 
+        else:
+            try: line = parts[1].strip()
+            except IndexError: line = ''
+            meth = getattr(self, 'do_'+cmd, None)
+            try:
+                meth(session, line)                         
+            except TypeError:
+                self.unknown(session, cmd)
 
 # above these are kinds of rooms
 class Room(CommandHandler):
@@ -55,7 +60,6 @@ class LoginRoom(Room):
 
     def do_login(self, session, line):
         name = line.strip()
-        print name
         if not name:
             session.push("Please Enter a Name\r\n")
         elif name in self.server.users:
@@ -68,12 +72,12 @@ class LoginRoom(Room):
 class ChatRoom(Room):
 
     def add(self, session):
-        self.broadcast(session.name + 'has enter room \r\n')
+        self.broadcast(session.name + ' has enter room \r\n')
         self.server.users[session.name] = session
         Room.add(self, session)
     def remove(self, session):
         Room. remove(self, session)
-        self.broadcast(session.name + 'has leave the room \r\n')
+        self.broadcast(session.name + ' has leave the room \r\n')
 
     def do_say(self, session, line):
         self.broadcast(session.name+': '+line+'\r\n')
@@ -82,10 +86,20 @@ class ChatRoom(Room):
         session.push('The foolowing are ini this room :\r\n')
         for other in self.sessions:
             session.push(other.name + '\r\n')
+
     def do_who(self, session, line):
         session.push('The following are logged in :\r\n')
         for name in self.server.users:
             session.push(name+'\r\n')
+
+    def do_getout(self, session, line):
+        
+        if session.name == 'admin':
+            self.broadcast(line + ' has been cleaned \r\n')
+            self.server.users[line].handle_close()      
+        else:
+            self.broadcast(session.name+' try to kill other people \r\n')
+            session.push('please check your account,you have no right to do it \r\n')
 
 
 class LogoutRoom(Room):

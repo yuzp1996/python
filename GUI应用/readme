@@ -1,0 +1,6 @@
+在Ubuntu系统中安装wxpython方法如下：
+
+打开控制台，输入命令apt-cache search wxpython。如果能返回wxpython的信息，则直接输入命令sudo apt-get install python-wxtools安装即可
+
+
+若为windows系统择可以用文件夹中的两个安装包安装
