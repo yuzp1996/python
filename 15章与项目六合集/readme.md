@@ -34,3 +34,6 @@ Errno 13] Permission denied: '/var/www/cgi-bin/data/first' 1
  sudo chmod 666 first
 
 对于修改cgi程序的权限。CGI程序属性一定要设为可运行（755），而与CGI有关的HTML文件的目录如果要被CGI程序写入，其权限一定要设为可写（666）
+
+ 
+### 这个项目需要自己新建一个文件  simple_edit.dat 这个就是用来放置我们的文件的
