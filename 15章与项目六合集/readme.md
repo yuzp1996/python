@@ -13,3 +13,24 @@
 http://localhost/index.html
 
 直接加上文件名即可
+
+###  一定要对text或者html文件进行授权  
+
+问题查不出来很棘手
+
+    try:
+        f = open(join(BASE_DIR, filename), 'w')
+    except Exception as err:
+        print err  
+        print "1"
+
+
+还是靠这个把问题揪出来了
+
+Errno 13] Permission denied: '/var/www/cgi-bin/data/first' 1 
+
+出了一大推的错，感觉自己也是恶心坏了，授权的问题也解决了，要是需要写的文件授权就要给666这个权限，这个恶心死我了，昨晚一晚上，这家伙，
+
+ sudo chmod 666 first
+
+对于修改cgi程序的权限。CGI程序属性一定要设为可运行（755），而与CGI有关的HTML文件的目录如果要被CGI程序写入，其权限一定要设为可写（666）
