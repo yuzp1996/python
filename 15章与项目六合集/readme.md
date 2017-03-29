@@ -11,8 +11,11 @@
 访问的话
 
 http://localhost/index.html
-
 直接加上文件名即可
+
+普通cgi文件访问 ： http://localhost/cgi-bin/simple_edit.cgi
+
+
 
 ###  一定要对text或者html文件进行授权  
 
