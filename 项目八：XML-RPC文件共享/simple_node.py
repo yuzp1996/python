@@ -34,49 +34,56 @@ class Node:
         
 
 
-def _handle(self, query):
-    dir = self.dirname
-    name = join(dir, query)
-    if not isfile(name): return FAIL, EMPTY
-    return OK, open(name).read()
+    def _handle(self, query):
+        dir = self.dirname
+        print dir
+        print query
+        name = join(dir, query)
+        print name
+        if not isfile(name): return FAIL, EMPTY
+        return OK, open(name).read()
 
 
-def hello(self, other):
-    self.known.add(other)
-    return OK
-
-def fetch(self, query, secret):
-    if secret != self.secret :return FAIL
-    code, data = self.query(query)
-    if code == OK:
-        f = open(join(self.dirname),'w')
-        f.write(data)
-        f.close()
+    def hello(self, other):
+        self.known.add(other)
         return OK
-    else: 
-        return FAIL
 
-def _start(self):
-    s = SimpleXMLRPCServer(("", getPort(self.url)), logRequests=False)
-    s.register_instance(self)
-    s.serve_forever()
+    def fetch(self, query, secret):
+        if secret != self.secret :return FAIL
+        code, data = self.query(query)
+        if code == OK:
+            f = open(join(self.dirname),'w')
+            f.write(data)
+            f.close()
+            return OK
+        else: 
+            return FAIL
 
-def _broadcast(self, query, history):
-    for ther in self.knoen.copy():
-        if other in history: continue
-        try:
-            s = ServerProxy(other)
-            code, data =s.query(query, history)
-            if code == OK:
-                return code, data
-        except:
-            self.known.remove(other)
-    return FAIL, EMPTY
+    def _start(self):
+        s = SimpleXMLRPCServer(("", getPort(self.url)), logRequests=False)
+        s.register_instance(self)
+        s.serve_forever()
+
+    def _broadcast(self, query, history):
+        for ther in self.knoen.copy():
+            if other in history: continue
+            try:
+                s = ServerProxy(other)
+                code, data =s.query(query, history)
+                if code == OK:
+                    return code, data
+            except:
+                self.known.remove(other)
+        return FAIL, EMPTY
 
 def main():
+    print sys.argv[1:]
     url, directory, secret = sys.argv[1:]
+    print url
+    print directory
+    print secret
     n = Node(url, directory, secret)
-    n,_start
+    n._start()
 if __name__== '__main__':main()
 
 
