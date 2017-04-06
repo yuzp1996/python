@@ -28,7 +28,7 @@ class Node:
             return code, data
         else: 
             history = history + [self.url]
-            if len(histoy) >= MAX_HISTORYU_LENGTH:
+            if len(history) >= MAX_HISTORY_LENGTH:
                 return FAIL, EMPTY        
         return self._broadcast(query, history)
         
@@ -65,7 +65,7 @@ class Node:
         s.serve_forever()
 
     def _broadcast(self, query, history):
-        for ther in self.knoen.copy():
+        for other in self.known.copy():
             if other in history: continue
             try:
                 s = ServerProxy(other)
@@ -85,7 +85,6 @@ def main():
     n = Node(url, directory, secret)
     n._start()
 if __name__== '__main__':main()
-
 
 
 
