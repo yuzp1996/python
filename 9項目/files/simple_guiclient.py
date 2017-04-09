@@ -62,15 +62,15 @@ class Client(wx.App):
 
         return True
 
-        def fetchHandler(self, event):
-            query =self.input.GetValue()
-            try:
-                self.server.fetch(query, self.secret)
-                self.updateList()
+    def fetchHandler(self, event):
+        query =self.input.GetValue()
+        try:
+            self.server.fetch(query, self.secret)
+            self.updateList()
 
-            except Fault,f:
-                if f.faultCode != UNHANDLED: raise
-                print "Counldn't find the file",query
+        except Fault,f:
+            if f.faultCode != UNHANDLED: raise
+            print "Counldn't find the file",query
 
 def main():
         urlfile, directory,url = sys.argv[1:]
