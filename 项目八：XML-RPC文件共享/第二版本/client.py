@@ -45,6 +45,7 @@ class Client(Cmd):
             self.server.fetch(arg,self.secret)
         except Fault,f:
             if f.faultCode != UNHANDLED: raise
+            print f.faultCode
             print "Couldn't find the file",arg
 
     def do_exit(self,arg):
