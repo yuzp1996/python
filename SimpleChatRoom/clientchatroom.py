@@ -12,20 +12,19 @@ class Client(wx.App):
         bkg = wx.Panel(win)
         loadButton = wx.Button(bkg, label='Connect',size=(100,30))
         loadButton.Bind(wx.EVT_BUTTON, self.OnSend)
-        str1 = wx.StaticText(bkg, label="IP地址")
+        str1 = wx.StaticText(bkg, label="IP地址: ")
         self.filename = filename = wx.TextCtrl(bkg)
-        str2 = wx.StaticText(bkg, label="用户名")
+        str2 = wx.StaticText(bkg, label="用户名: ")
         self.contents = contents = wx.TextCtrl(bkg)
 
 
         hbox = wx.BoxSizer()
         hbox.Add(str1,proportion=0,flag=wx.LEFT, border=5)
         hbox.Add(filename, proportion=1, flag=wx.EXPAND)
-        # hbox.Add(loadButton, proportion=1, flag=wx.LEFT, border=5)
 
         hbox1 = wx.BoxSizer()
         hbox1.Add(str2,proportion=0,flag=wx.LEFT,border=5)
-        hbox1.Add(contents, proportion=1,flag=wx.EXPAND|wx.LEFT|wx.BOTTOM|wx.RIGHT,border=5)
+        hbox1.Add(contents, proportion=1,flag=wx.EXPAND)
 
 
         vbox = wx.BoxSizer(wx.VERTICAL)
@@ -36,45 +35,9 @@ class Client(wx.App):
 
 
         win.Show()
+        self.filename.SetValue("123.207.153.155")
         return True
-    #
-    #
-    # def ChatRoom(self,event):
-    #     self.winChat =winChat= wx.Frame(None,title="ChatRoom",size=(500,500))
-    #
-    #
-    #     bkg = wx.Panel(winChat)
-    #     loadButton = wx.Button(bkg, label='Send',size=(100,30))
-    #     # loadButton.Bind(wx.EVT_BUTTON, self.OnSend)
-    #     cancleButton = wx.Button(bkg, label='Cancle',size=(100,30))
-    #     str1 = wx.StaticText(bkg, label="对话框")
-    #     self.allInput = allInput = wx.TextCtrl(bkg,style=wx.TE_MULTILINE | wx.HSCROLL)
-    #     str2 = wx.StaticText(bkg, label="输入对话")
-    #     self.Input = Input = wx.TextCtrl(bkg,style=wx.TE_MULTILINE | wx.HSCROLL)
-    #
-    #
-    #     hbox = wx.BoxSizer()
-    #     hbox.Add(str1,proportion=0,flag=wx.LEFT, border=5)
-    #     hbox.Add(allInput, proportion=1, flag=wx.EXPAND)
-    #
-    #     hbox1 = wx.BoxSizer()
-    #     hbox1.Add(str2,proportion=0,flag=wx.LEFT,border=5)
-    #     hbox1.Add(Input, proportion=1,flag=wx.EXPAND|wx.LEFT|wx.BOTTOM|wx.RIGHT,border=5)
-    #
-    #     hbox2 = wx.BoxSizer()
-    #     hbox2.Add(loadButton, proportion=0, flag=wx.LEFT, border=270)
-    #     hbox2.Add(cancleButton, proportion=0, flag=wx.LEFT, border=0)
-    #
-    #     vbox = wx.BoxSizer(wx.VERTICAL)
-    #     vbox.Add(hbox, proportion=2, flag=wx.EXPAND | wx.ALL,border=5 )
-    #     vbox.Add(hbox1,proportion=1, flag=wx.EXPAND | wx.ALL,border=5)
-    #     vbox.Add(hbox2,proportion=0, flag=wx.EXPAND | wx.ALL,border=5)
-    #
-    #
-    #     bkg.SetSizer(vbox)
-    #
-    #     winChat.Show()
-    #
+
     def OnSend(self, event):
 
         import telnetlib
@@ -88,7 +51,7 @@ class Client(wx.App):
         tn.read_until('Welcome to TestChat')
         tn.write("login "+username+"\r\n")
         self.win.Close()
-        ChatFrame(None, -1, title = 'Yuzhipeng Chat Room', size = (500, 350))
+        ChatFrame(None, -1, title = 'Yuzhipeng Chat Room', size = (540, 360))
 
 
 
@@ -101,19 +64,42 @@ class ChatFrame(wx.Frame):
     def __init__(self, parent, id, title, size):
         '初始化，添加控件并绑定事件'
         wx.Frame.__init__(self, parent, id, title)
+
         self.SetSize(size)
         self.Center()
-        self.chatFrame = wx.TextCtrl(self, pos = (5, 5), size = (490, 310), style = wx.TE_MULTILINE | wx.TE_READONLY)
-        self.message = wx.TextCtrl(self, pos = (5, 320), size = (300, 25))
-        self.sendButton = wx.Button(self, label = "Send", pos = (310, 320), size = (58, 25))
-        self.usersButton = wx.Button(self, label = "Users", pos = (373, 320), size = (58, 25))
-        self.closeButton = wx.Button(self, label = "Close", pos = (436, 320), size = (58, 25))
+        self.bkg = wx.Panel(self)
+
+
+        self.chatFrame = chatFrame = wx.TextCtrl(self.bkg, size = (390, 310), style = wx.TE_MULTILINE | wx.TE_READONLY)
+        self.manListFrame = manListFrame = wx.TextCtrl(self.bkg, size = (200,310), style = wx.TE_MULTILINE | wx.TE_READONLY)
+        self.message = wx.TextCtrl(self.bkg,  size = (300, 25))
+        self.sendButton = wx.Button(self.bkg, label = "发送", size = (58, 25))
+        self.usersButton = wx.Button(self.bkg, label = "查看用户",  size = (58, 25))
+        self.closeButton = wx.Button(self.bkg, label = "关闭", size = (58, 25))
         self.sendButton.Bind(wx.EVT_BUTTON, self.send)
         self.usersButton.Bind(wx.EVT_BUTTON, self.lookUsers)
         self.closeButton.Bind(wx.EVT_BUTTON, self.close)
         self.chatFrame.SetValue("Welcome to Yuzhipeng's ChatRoom! \r\n")
+        self.manListFrame.SetValue("Who are here! \r\n")
+
+        hbox = wx.BoxSizer()
+        hbox.Add(self.chatFrame, proportion=2, flag=wx.EXPAND, border=1)
+        hbox.Add(self.manListFrame, proportion=1, flag=wx.EXPAND, border=1)
+
+        hbox1 = wx.BoxSizer()
+        hbox1.Add(self.message, proportion=2, flag=wx.EXPAND, border=1)
+        hbox1.Add(self.sendButton, proportion=1,  flag=wx.EXPAND, border=1)
+        hbox1.Add(self.usersButton, proportion=1, flag=wx.EXPAND, border=1)
+        hbox1.Add(self.closeButton, proportion=1 , flag=wx.EXPAND, border=1)
+
+        vbox = wx.BoxSizer(wx.VERTICAL)
+        vbox.Add(hbox, proportion = 3, flag=wx.EXPAND | wx.ALL,border=5 )
+        vbox.Add(hbox1, proportion = 1, flag=wx.EXPAND | wx.ALL,border=5 )
+
+        self.bkg.SetSizer(vbox)
         thread.start_new_thread(self.receive, ())
         self.Show()
+        self.lookUsers(self)
 
     def send(self, event):
         '发送消息'
@@ -121,11 +107,10 @@ class ChatFrame(wx.Frame):
         if message != '':
             tn.write(message + '\r\n')
             self.message.Clear()
-            # self.chatFrame.AppendText('me: '+message+'\n')
 
     def lookUsers(self, event):
         '查看当前在线用户'
-        tn.write('look\n')
+        tn.write('who\r\n')
 
     def close(self, event):
         '关闭窗口'
@@ -136,10 +121,14 @@ class ChatFrame(wx.Frame):
     def receive(self):
         '接受服务器的消息'
         while True:
-        	sleep(0.1)
-        	result = tn.read_very_eager()
-        	if result != '':
-        		self.chatFrame.AppendText(result)
+            sleep(0.1)
+            result = tn.read_very_eager()
+            if result != '':
+                if result.startswith("The fo"):
+                    self.manListFrame.SetValue("Who are here! \n"+result[29:])
+                    pass
+                self.chatFrame.AppendText(result)
+
 
 
 def main():
@@ -148,7 +137,6 @@ def main():
     client.MainLoop()
 
 if __name__ == '__main__':
-    finish = ':~$ '      # 命令提示符
     #123.207.153.155
     tn = telnetlib.Telnet()
     main()
