@@ -1,6 +1,6 @@
 from xmlrpclib import ServerProxy,Fault
-from server import Node,UNHANDLED  
-from client import randomString  
+from server import Node,UNHANDLED
+from client import randomString
 from threading import Thread
 from time import sleep
 from os import listdir
@@ -79,4 +79,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-

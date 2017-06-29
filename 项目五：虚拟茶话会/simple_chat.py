@@ -43,12 +43,16 @@ class ChatServer(dispatcher):
             session.push(line+'\r\n')
 
     def handle_accpet(self): 
+        print 321
         conn, addr = self.accept()
+        
         print "connect from "+conn
         self.sessions.append(ChatSession(self, conn))
 
 if __name__=='__main__':
+    
     s = ChatServer(PORT, NAME)
+    print 1
     try: asyncore.loop()
     except KeyboardInterrupt : print		
 
