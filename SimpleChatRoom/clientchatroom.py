@@ -128,10 +128,10 @@ class ChatFrame(wx.Frame):
             sleep(0.1)
             result = tn.read_very_eager()
             if result != '':
-                if result.startswith("The fo"):
-                    self.manListFrame.SetValue("谁在这呢! \n"+result[29:])
-                else:
-                    self.chatFrame.AppendText("-----"+Separator+result+Separator)
+                # if result.startswith("The fo"):
+                #     self.manListFrame.SetValue("谁在这呢! \n"+result[29:])
+                # else:
+                self.chatFrame.AppendText("-----"+Separator+result+Separator)
 
 
 
