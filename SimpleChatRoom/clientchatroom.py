@@ -123,7 +123,7 @@ class ChatFrame(wx.Frame):
 
     def receive(self):
         '接受服务器的消息'
-        Separator = "----------------------\r\n"
+
         while True:
             sleep(0.1)
             result = tn.read_very_eager()
@@ -131,7 +131,7 @@ class ChatFrame(wx.Frame):
                 # if result.startswith("The fo"):
                 #     self.manListFrame.SetValue("谁在这呢! \n"+result[29:])
                 # else:
-                self.chatFrame.AppendText("-----"+Separator+result+Separator)
+                self.chatFrame.AppendText(result)
 
 
 
