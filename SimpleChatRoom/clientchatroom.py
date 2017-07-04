@@ -38,21 +38,25 @@ class Client(wx.App):
         self.filename.SetValue("123.207.153.155")
         return True
 
+    def ShowMessage(self):
+        wx.MessageBox('请检查IP地址', '连接错误',
+            wx.OK | wx.ICON_INFORMATION)
+
     def OnSend(self, event):
-
-        import telnetlib
-        '''''Telnet远程登录：Windows客户端连接Linux服务器'''
-        # 连接Telnet服务器
-        username = u' '.join(self.contents.GetValue()).encode('utf-8')   # 登录用户名
-        Host = self.filename.GetValue().encode('ascii')
-        tn.open(Host, port=5005, timeout = 10)
-        tn.set_debuglevel(2)
-        tn.read_until('Welcome to TestChat')
-        tn.write("login "+username+"\r\n")
-        self.win.Close()
-        ChatFrame(None, -1, title = '鱼狗狗聊天室', size = (540, 360))
-
-
+        try:
+            import telnetlib
+            '''''Telnet远程登录：Windows客户端连接Linux服务器'''
+            # 连接Telnet服务器
+            username = u' '.join(self.contents.GetValue()).encode('utf-8')   # 登录用户名
+            Host = self.filename.GetValue().encode('ascii')
+            tn.open(Host, port=5005, timeout = 10)
+            tn.set_debuglevel(2)
+            tn.read_until('Welcome to TestChat')
+            tn.write("login "+username+"\r\n")
+            self.win.Close()
+            ChatFrame(None, -1, title = '鱼狗狗聊天室', size = (540, 360))
+        except Exception:
+            self.ShowMessage()
 
 
 class ChatFrame(wx.Frame):
@@ -70,7 +74,7 @@ class ChatFrame(wx.Frame):
 
 
         self.chatFrame = chatFrame = wx.TextCtrl(self.bkg, size = (390, 310), style = wx.TE_MULTILINE | wx.TE_READONLY)
-        self.manListFrame = manListFrame = wx.TextCtrl(self.bkg, size = (200,310), style = wx.TE_MULTILINE | wx.TE_READONLY)
+        # self.manListFrame = manListFrame = wx.TextCtrl(self.bkg, size = (200,310), style = wx.TE_MULTILINE | wx.TE_READONLY)
 
         # 信息框，绑定回车事件
         self.message = wx.TextCtrl(self.bkg,  size = (300, 25),style = wx.TE_PROCESS_ENTER)
@@ -83,11 +87,11 @@ class ChatFrame(wx.Frame):
         self.usersButton.Bind(wx.EVT_BUTTON, self.lookUsers)
         self.closeButton.Bind(wx.EVT_BUTTON, self.close)
         self.chatFrame.SetValue("欢迎来到鱼狗狗的聊天室! \r\n")
-        self.manListFrame.SetValue("谁在这呢! \r\n")
+        # self.manListFrame.SetValue("谁在这呢! \r\n")
 
         hbox = wx.BoxSizer()
         hbox.Add(self.chatFrame, proportion=2, flag=wx.EXPAND, border=1)
-        hbox.Add(self.manListFrame, proportion=1, flag=wx.EXPAND, border=1)
+        # hbox.Add(self.manListFrame, proportion=1, flag=wx.EXPAND, border=1)
 
         hbox1 = wx.BoxSizer()
         hbox1.Add(self.message, proportion=2, flag=wx.EXPAND, border=1)
