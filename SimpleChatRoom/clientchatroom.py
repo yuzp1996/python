@@ -8,9 +8,9 @@ class Client(wx.App):
     def _init_(self):
         super(Client,self).__init__()
     def OnInit(self):
-        self.win = win = wx.Frame(None,title="Connect",size=(400,120))
+        self.win = win = wx.Frame(None,title="连接窗口",size=(400,120))
         bkg = wx.Panel(win)
-        loadButton = wx.Button(bkg, label='Connect',size=(100,30))
+        loadButton = wx.Button(bkg, label='连接',size=(100,30))
         loadButton.Bind(wx.EVT_BUTTON, self.OnSend)
         str1 = wx.StaticText(bkg, label="IP地址: ")
         self.filename = filename = wx.TextCtrl(bkg)
@@ -105,6 +105,7 @@ class ChatFrame(wx.Frame):
 
         self.bkg.SetSizer(vbox)
         thread.start_new_thread(self.receive, ())
+        # self.receive
         self.Show()
         self.lookUsers(self)
 
